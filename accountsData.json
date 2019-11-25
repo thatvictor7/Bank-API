@@ -1,0 +1,20 @@
+{
+    "users": [
+        {
+            "userId": "abcd1234",
+            "firstName": "John",
+            "lastName": "Smith",
+            "bankName": "USAA",
+            "descriptions": "",
+            "transaction": []
+        },
+        {
+            "userId": "efgh5678",
+            "firstName": "Natalie",
+            "lastName": "Henderson",
+            "bankName": "Navy Federal",
+            "descriptions": "",
+            "transaction": []
+        }
+    ]
+}

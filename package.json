@@ -1,0 +1,24 @@
+{
+  "name": "bankApi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bankServer.js",
+  "scripts": {
+    "start": "nodemon bankServer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thatvictor7/Bank-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thatvictor7/Bank-API/issues"
+  },
+  "homepage": "https://github.com/thatvictor7/Bank-API#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.1"
+  }
+}

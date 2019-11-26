@@ -1,7 +1,7 @@
 {
     "users": [
         {
-            "userId": "abcd1234",
+            "userId": "JgNtAl8z",
             "firstName": "John",
             "lastName": "Smith",
             "bankName": "USAA",
@@ -9,10 +9,17 @@
             "transaction": []
         },
         {
-            "userId": "efgh5678",
+            "userId": "L1O1HYM1",
             "firstName": "Natalie",
             "lastName": "Henderson",
             "bankName": "Navy Federal",
+            "descriptions": "",
+            "transaction": []
+        }, {
+            "userId": "9J5c4DgomVdl8Ie9y",
+            "firstName": "Dominick",
+            "lastName": "Hansen",
+            "bankName": "Wells Fargo",
             "descriptions": "",
             "transaction": []
         }

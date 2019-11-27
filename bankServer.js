@@ -17,7 +17,6 @@ var path = require('path')
 var accountsPath = path.join(__dirname, 'accountsData.json')
 
 const shortId = require('shortid')
-// shortId.characters('0123456789')
 
 app.get('/accounts', function(req,res){
     fs.readFile(accountsPath, 'utf8', function(err, accountsJSON){
@@ -128,6 +127,36 @@ app.put('/accounts/:id', function(req, res){
 
         
         res.send(accounts.users[id])
+    })
+})
+
+app.delete('/accounts/:id', function(req, res){
+    fs.readFile(accountsPath, 'utf8', function(readErr, accountsJSON){
+        if(readErr){
+            console.error(readErr.stack)
+            return res.status(500)
+        }
+
+        let id = Number.parseInt(req.params.id)
+        let accounts = JSON.parse(accountsJSON)
+
+        if(id < 0 || Number.isNaN(id) || id >= accounts.users.length){
+            return res.status(404).json({"Error": "Missing user data"})
+        }
+
+        accounts.users.splice(id,1)
+
+        let newAccountsJSON = JSON.stringify(accounts)
+
+        fs.writeFile(accountsPath, newAccountsJSON, function(writeErr){
+            if(writeErr){
+                return res.status(500).json({
+                    "Error": "Internal error"
+                })
+            }
+        })
+
+        res.status(200).json({"Deleted": id})
     })
 })
 

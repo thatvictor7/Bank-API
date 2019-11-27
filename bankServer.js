@@ -88,6 +88,49 @@ app.post('/accounts', function(req,res){
     })
 })
 
+app.put('/accounts/:id', function(req, res){
+    fs.readFile(accountsPath, 'utf8', function(readErr, accountsJSON){
+        if(readErr){
+            console.error(readErr.stack)
+            return res.status(500)
+        }
+
+        let id = Number.parseInt(req.params.id)
+        let accounts = JSON.parse(accountsJSON)
+        let account = accounts.users[id]
+
+        let firstName = req.body.fname
+        let lastName = req.body.lname
+        let bank = req.body.bank
+
+        
+        if(id < 0 || Number.isNaN(id) || id >= accounts.users.length){
+            return res.status(404).json({"Error": "Not Found, Invalid ID."})
+        } else if(!firstName || !lastName || !bank){
+            return res.status(400).json({"Error": "Missing user data"})
+        }
+        
+        account["firstName"] = firstName
+        account["lastName"] = lastName
+        account["bankName"] = bank
+        accounts.users[id] = account
+        
+        var newAccountsJSON = JSON.stringify(accounts)
+
+        fs.writeFile(accountsPath, newAccountsJSON, function(writeErr){
+            if(writeErr){
+                console.error(writeErr.stack)
+                return res.status(500).json({
+                    "Error": "Internal error."
+                })
+            }
+        })
+
+        
+        res.send(accounts.users[id])
+    })
+})
+
 app.listen(app.get('port'), function(){
     console.log('Listening on', app.get('port'));
 })

@@ -19,7 +19,20 @@
         "lastName": "Hansen",
         "bankName": "Wells Fargo",
         "descriptions": "",
-        "transaction": []
+        "transaction": [
+            {
+                "id": "949494",
+                "title": "ATM CITIBANK WITHDRAW",
+                "amount": -42.50,
+                "pending": true
+            },
+            {
+                "id": "949563",
+                "title": "DEBIT CARD PURCHASE",
+                "amount": -14.76,
+                "pending": true
+            }
+        ]
     }, {
         "userId": "n1nThidAVxT_oj_ND",
         "firstName": "Connor",

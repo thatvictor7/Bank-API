@@ -18,6 +18,8 @@ var accountsPath = path.join(__dirname, 'accountsData.json')
 
 const shortId = require('shortid')
 
+// Accounts
+
 app.get('/accounts', function(req,res){
     fs.readFile(accountsPath, 'utf8', function(err, accountsJSON){
         if(err){
@@ -157,6 +159,34 @@ app.delete('/accounts/:id', function(req, res){
         })
 
         res.status(200).json({"Deleted": id})
+    })
+})
+
+// app.get('/accounts/:id', function(req,res){
+//     fs.readFile(accountsPath, 'utf8', function(readErr){
+//         if(readErr){
+//             console.error(readErr.stack)
+//             return res.status(500)
+//         }
+
+
+//     })
+// })
+
+// Transactions
+
+app.get('/accounts/:id/transactions', function(req,res){
+    fs.readFile(accountsPath, 'utf8', function(readErr, accountsJSON){
+        if(readErr){
+            console.error(readErr.stack)
+            return res.status(500)
+        }
+
+        let id = Number.parseInt(req.params.id)
+        let accounts = JSON.parse(accountsJSON)
+
+        res.status(200).json(accounts.users[id].transaction)
+
     })
 })
 

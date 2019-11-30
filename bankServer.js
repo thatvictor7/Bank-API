@@ -17,6 +17,7 @@ var path = require('path')
 var accountsPath = path.join(__dirname, 'accountsData.json')
 
 const shortId = require('shortid')
+const uuidv4 = require('uuid/v4');
 
 // Accounts
 
@@ -162,17 +163,6 @@ app.delete('/accounts/:id', function(req, res){
     })
 })
 
-// app.get('/accounts/:id', function(req,res){
-//     fs.readFile(accountsPath, 'utf8', function(readErr){
-//         if(readErr){
-//             console.error(readErr.stack)
-//             return res.status(500)
-//         }
-
-
-//     })
-// })
-
 // Transactions
 
 app.get('/accounts/:id/transactions', function(req,res){
@@ -185,8 +175,53 @@ app.get('/accounts/:id/transactions', function(req,res){
         let id = Number.parseInt(req.params.id)
         let accounts = JSON.parse(accountsJSON)
 
+        if (id < 0 || Number.isNaN(id) || id >= accounts.users.length) {
+            return res.status(404).json({"Error": "Invalid id"})
+        }
+
         res.status(200).json(accounts.users[id].transaction)
 
+    })
+})
+
+app.post('/accounts/:id/transactions', function(req, res){
+    fs.readFile(accountsPath, 'utf8', function(readErr, accountsJSON){
+        if(readErr){
+            console.error(readErr.stack)
+            return res.status(500)
+        }
+
+        let id = Number.parseInt(req.params.id)
+        let accounts = JSON.parse(accountsJSON)
+
+        let newTransaction = {
+            "userId": uuidv4(),
+            "title": req.body.title,
+            "amount": req.body.amount,
+            "pending": true
+        }
+
+        if (id < 0 || Number.isNaN(id) || id >= accounts.users.length) {
+            return res.status(404).json({"Error": "Invalid id"})
+        } else if (!req.body.title || !req.body.amount) {
+            return res.status(400).json({
+                "Error": "Missing transaction data."
+            })
+        }
+
+        accounts.users[id]["transaction"].push(newTransaction)
+
+        let newAccountsJSON = JSON.stringify(accounts)
+
+        fs.writeFile(accountsPath, newAccountsJSON, function(writeErr){
+            if(writeErr){
+                return res.status(500).json({
+                    "Error": "Internal error"
+                })
+            }
+        })
+
+        res.status(201).json({ "account": accounts.users[id]})
     })
 })
 

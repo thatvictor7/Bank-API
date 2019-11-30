@@ -5,34 +5,46 @@
         "lastName": "Smith",
         "bankName": "USAA",
         "descriptions": "",
-        "transaction": []
+        "transaction": [{
+            "userId": "a2e8c432-558e-48ad-b9d9-5bef540d94c6",
+            "title": "DEPOSIT DFAS",
+            "amount": 1500.13,
+            "pending": true
+        }]
     }, {
         "userId": "gswyP1k_7QNn3OM1b",
         "firstName": "Natalie",
         "lastName": "Henderson",
         "bankName": "Navy Federal",
         "descriptions": "",
-        "transaction": []
+        "transaction": [{
+            "userId": "6a9ade4b-3c82-420b-9559-3831efa7f216",
+            "title": "DEPOSIT GOOGLE PAY",
+            "amount": 600,
+            "pending": true
+        }]
     }, {
         "userId": "9J5c4DgomVdl8Ie9y",
         "firstName": "Dominick",
         "lastName": "Hansen",
         "bankName": "Wells Fargo",
         "descriptions": "",
-        "transaction": [
-            {
-                "id": "949494",
-                "title": "ATM CITIBANK WITHDRAW",
-                "amount": -42.50,
-                "pending": true
-            },
-            {
-                "id": "949563",
-                "title": "DEBIT CARD PURCHASE",
-                "amount": -14.76,
-                "pending": true
-            }
-        ]
+        "transaction": [{
+            "id": "949056cf38a-5836-4228-a85a-145b70eee6a3494",
+            "title": "ATM CITIBANK WITHDRAW",
+            "amount": -42.5,
+            "pending": false
+        }, {
+            "id": "94ab634daf-babd-49b2-973c-a6142c3b4d409563",
+            "title": "DEBIT CARD PURCHASE",
+            "amount": -14.76,
+            "pending": true
+        }, {
+            "userId": "0478911d-0e5e-4e7b-911a-56b428393fc9",
+            "title": "ATM WITHDRAW",
+            "amount": -200.13,
+            "pending": true
+        }]
     }, {
         "userId": "n1nThidAVxT_oj_ND",
         "firstName": "Connor",

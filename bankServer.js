@@ -225,6 +225,56 @@ app.post('/accounts/:id/transactions', function(req, res){
     })
 })
 
+app.put('/accounts/:id/transactions', function(req,res,next){
+    fs.readFile(accountsPath, 'utf8', function(readErr, accountsJSON){
+        if(readErr){
+            console.error(readErr.stack)
+            return res.status(500)
+        }
+
+        let id = Number.parseInt(req.params.id)
+        let accounts = JSON.parse(accountsJSON)
+
+        if (id < 0 || Number.isNaN(id) || id >= accounts.users.length) {
+            return res.status(404).json({ "Error": "Invalid id" })
+        }
+
+        let title = req.body.title
+        let amount = req.body.amount
+        let transactionToUpdate = req.body.transaction
+
+        if(!title || !amount || !transactionToUpdate){
+            return res.status(400).json({
+                "Error": "Missing transaction data."
+            })
+        }
+
+        let response = {
+            "Message": "Succesfully Updated",
+            "transactions": accounts.users[id]["transaction"]
+        }
+
+        accounts.users[id]["transaction"].map((t) => {
+            if(t["id"] === transactionToUpdate){
+                t["title"] = title
+                t["amount"] = amount
+            }  
+        })
+
+        let newAccountsJSON = JSON.stringify(accounts)
+
+        fs.writeFile(accountsPath, newAccountsJSON, function(writeErr){
+            if(writeErr){
+                return res.status(500).json({
+                    "Error": "Internal error"
+                })
+            }
+        })
+
+        res.status(200).json(response)
+    })
+})
+
 app.listen(app.get('port'), function(){
     console.log('Listening on', app.get('port'));
 })

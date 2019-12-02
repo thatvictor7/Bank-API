@@ -275,6 +275,56 @@ app.put('/accounts/:id/transactions', function(req,res,next){
     })
 })
 
+app.delete('/accounts/:id/transactions', function(req,res){
+    fs.readFile(accountsPath, 'utf8', function(readErr, accountsJSON){
+        if(readErr){
+            console.error(readErr.stack)
+            return res.status(500)
+        }
+
+        let id = Number.parseInt(req.params.id)
+        let accounts = JSON.parse(accountsJSON)
+        let tranasctionToDelete = null
+
+        if(id < 0 || Number.isNaN(id) || id >= accounts.users.length) {
+            return res.status(404).json({
+                "Error": "Invalid id"
+            })
+        }
+
+        let transaction = req.body.transaction
+
+        if(!transaction){
+           return res.status(400).json({
+               "Error": "Missing transaction data."
+           })
+        }
+
+        // accounts.users[id]["transaction"].map((t) => {
+        //     console.log(t)
+        // })
+        for (let i = 0; i < accounts.users[id]["transaction"].length; i++) {
+            if (transaction === accounts.users[id]["transaction"][i]["id"]) {
+                tranasctionToDelete = accounts.users[id]["transaction"][i]
+                accounts.users[id]["transaction"].splice(i,1)
+            }
+        }
+
+        let newAccountsJSON = JSON.stringify(accounts)
+
+
+        fs.writeFile(accountsPath, newAccountsJSON, function(writeErr){
+            if(writeErr){
+                return res.status(500).json({
+                    "Error": "Internal error"
+                })
+            }
+        })
+
+        res.status(200).json({"Message": "Succesfully deleted transaction.", "deleted": tranasctionToDelete})
+    })
+})
+
 app.listen(app.get('port'), function(){
     console.log('Listening on', app.get('port'));
 })
